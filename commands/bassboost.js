@@ -2,7 +2,7 @@ const {GuildMember} = require('discord.js');
 
 module.exports = {
   name: 'bassboost',
-  description: 'Pause current song!',
+  description: 'Applies bassboost filter!',
   async execute(interaction, player) {
     if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
       return void interaction.reply({
@@ -31,10 +31,9 @@ module.exports = {
       bassboost: !queue.getFiltersEnabled().includes("bassboost"),
       normalizer2: !queue.getFiltersEnabled().includes("bassboost") // because we need to toggle it with bass
       });
-      setTimeout =>{
+      setTimeout(() =>{
         return void interaction.followUp({
-        content: `🎵 | Bassboost ${queue.getFiltersEnabled().includes("bassboost") ? "Enabled" : "Disabled"}!` ,
+        content: `🎵 | Bassboost ${queue.getFiltersEnabled().includes("bassboost") ? "Enabled" : "Disabled"}!` });
       }, queue.options.bufferingTimeout);
-    }
   },
 };
