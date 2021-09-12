@@ -1,4 +1,5 @@
 const {GuildMember} = require('discord.js');
+const { QueueRepeatMode } = require('discord-player');
 
 module.exports = {
   name: 'loop',
