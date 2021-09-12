@@ -59,7 +59,7 @@ module.exports = {
       await interaction.followUp({
         content: `⏱ | Loading your ${searchResult.playlist ? 'playlist' : 'track'}...`,
       });
-      searchResult.playlist ? queue.insert(searchResult.tracks,0) : queue.addTrack(searchResult.tracks[0]);
+      searchResult.playlist ? queue.insert(searchResult.tracks,0) : queue.insert(searchResult.tracks,[0]);
       if (!queue.playing) await queue.play();
     } catch (error) {
       console.log(error);
