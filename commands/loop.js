@@ -6,7 +6,7 @@ module.exports = {
   options: [
     {
         name: "mode",
-        type: CommandOptionType.INTEGER,
+        type: INTEGER,
         description: "Loop type",
         required: true,
         choices: [
