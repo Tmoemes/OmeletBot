@@ -31,9 +31,7 @@ module.exports = {
         nightcore: !queue.getFiltersEnabled().includes("nightcore"),
         normalizer2: !queue.getFiltersEnabled().includes("nightcore") // because we need to toggle it with bass
       });
-      setTimeout(() =>{
         return void interaction.followUp({
         content: `🎵 | nightcore ${queue.getFiltersEnabled().includes("nightcore") ? "Enabled" : "Disabled"}!` });
-      }, queue.options.bufferingTimeout);
   },
 };
