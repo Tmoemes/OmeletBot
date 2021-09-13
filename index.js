@@ -27,11 +27,11 @@ player.on('connectionError', (queue, error) => {
 });
 
 player.on('trackStart', (queue, track) => {
-  queue.metadata.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
+  queue.metadata.send(`🎶 | Started playing: **${track.title}** by **${track.author}**!`);
 });
 
 player.on('trackAdd', (queue, track) => {
-  queue.metadata.send(`🎶 | Track **${track.title}** queued!`);
+  queue.metadata.send(`🎶 | Track **${track.title}** by **${track.author}** queued!`);
 });
 
 player.on('botDisconnect', queue => {
