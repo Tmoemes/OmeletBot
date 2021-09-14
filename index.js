@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const Client = require('./client/Client');
 const {token} = require('./config.json');
 const {Player} = require('discord-player');
-const { VoiceConnectionStatus, entersState } = require('@discordjs/voice');
 
 const client = new Client();
 client.commands = new Discord.Collection();
@@ -57,19 +56,6 @@ client.once('reconnecting', () => {
 
 client.once('disconnect', () => {
   console.log('Disconnect!');
-});
-
-player.connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
-	try {
-		await Promise.race([
-			entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
-			entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
-		]);
-		// Seems to be reconnecting to a new channel - ignore disconnect
-	} catch (error) {
-		// Seems to be a real disconnect which SHOULDN'T be recovered from
-		connection.destroy();
-	}
 });
 
 client.on("messageCreate", async (message) => {
