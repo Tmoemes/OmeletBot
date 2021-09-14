@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const Client = require('./client/Client');
 const {token} = require('./config.json');
 const {Player} = require('discord-player');
+const { VoiceConnectionStatus, entersState } = require('@discordjs/voice');
 
 const client = new Client();
 client.commands = new Discord.Collection();
@@ -36,17 +37,14 @@ player.on('trackAdd', (queue, track) => {
 
 player.on('botDisconnect', queue => {
   queue.metadata.send('❌ | I was manually disconnected from the voice channel, clearing queue!');
-  queue.destroy(); //TODO nicer way of doing this
 });
 
 player.on('channelEmpty', queue => {
   queue.metadata.send('❌ | Nobody is in the voice channel, leaving...');
-  queue.destroy();
 });
 
 player.on('queueEnd', queue => {
   queue.metadata.send('✅ | Queue finished!');
-  queue.destroy();
 });
 
 client.once('ready', async () => {
@@ -59,6 +57,19 @@ client.once('reconnecting', () => {
 
 client.once('disconnect', () => {
   console.log('Disconnect!');
+});
+
+player.connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
+	try {
+		await Promise.race([
+			entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
+			entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
+		]);
+		// Seems to be reconnecting to a new channel - ignore disconnect
+	} catch (error) {
+		// Seems to be a real disconnect which SHOULDN'T be recovered from
+		connection.destroy();
+	}
 });
 
 client.on("messageCreate", async (message) => {
