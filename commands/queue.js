@@ -43,7 +43,7 @@ module.exports = {
                         : ""
                 }`,
                 color: 0xff0000,
-                fields: [{ name: "Now Playing", value: `🎶 | **${currentTrack.title}** by **${track.author}** ([link](${currentTrack.url}))` }]
+                fields: [{ name: "Now Playing", value: `🎶 | **${currentTrack.title}** by **${currentTrack.author}** ([link](${currentTrack.url}))` }]
             }
         ],
     });
