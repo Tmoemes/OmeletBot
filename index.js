@@ -36,7 +36,7 @@ player.on('trackAdd', (queue, track) => {
 
 player.on('botDisconnect', queue => {
   queue.metadata.send('❌ | I was manually disconnected from the voice channel, clearing queue!');
-  queue.destroy();
+  queue.destroy(); //TODO nicer way of doing this
 });
 
 player.on('channelEmpty', queue => {
@@ -46,6 +46,7 @@ player.on('channelEmpty', queue => {
 
 player.on('queueEnd', queue => {
   queue.metadata.send('✅ | Queue finished!');
+  queue.destroy();
 });
 
 client.once('ready', async () => {
