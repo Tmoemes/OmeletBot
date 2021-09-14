@@ -16,7 +16,9 @@ for (const file of commandFiles) {
 
 console.log(client.commands);
 
-const player = new Player(client);
+const playerOptions = {leaveOnStop: false, leaveOnEmptyCooldown:25000, leaveOnEnd: false };
+
+const player = new Player(client,playerOptions);
 
 player.on('error', (queue, error) => {
   console.log(`[${queue.guild.name}] Error emitted from the queue: ${error.message}`);
@@ -47,6 +49,10 @@ player.on('queueEnd', queue => {
 });
 
 client.once('ready', async () => {
+  console.log('Ready!');
+});
+
+client.on('ready', async () => {
   console.log('Ready!');
 });
 
