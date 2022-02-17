@@ -2,7 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const Client = require('./client/Client');
 const {token} = require('./config.json');
-const {Player} = require('discord-player');
+const {Player} = require('discord-music-player');
 
 const client = new Client();
 client.commands = new Discord.Collection();
@@ -16,9 +16,14 @@ for (const file of commandFiles) {
 
 console.log(client.commands);
 
-const playerOptions = {leaveOnStop: false, leaveOnEmptyCooldown:25000, leaveOnEnd: false };
+const playerOptions = {timeout: 30, deafenOnJoin:true};
 
 const player = new Player(client,playerOptions);
+client.player = player;
+
+client.once('ready', async () => {
+  console.log('Ready!');
+});
 
 player.on('error', (queue, error) => {
   console.log(`[${queue.guild.name}] Error emitted from the queue: ${error.message}`);
@@ -46,14 +51,6 @@ player.on('channelEmpty', queue => {
 
 player.on('queueEnd', queue => {
   queue.metadata.send('✅ | Queue finished!');
-});
-
-client.once('ready', async () => {
-  console.log('Ready!');
-});
-
-client.on('ready', async () => {
-  console.log('Ready!');
 });
 
 client.once('reconnecting', () => {

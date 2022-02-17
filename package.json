@@ -16,12 +16,12 @@
   "author": "OmeletMace",
   "dependencies": {
     "@discordjs/opus": "^0.6.0",
+    "discord-music-player": "^8.3.1",
     "discord-player": "^5.0.2",
     "discord.js": "^13.1.0",
     "ffmpeg": "0.0.4",
-    "ffmpeg-static":"^4.4.0",
+    "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "ytdl-core": "^4.9.1"
-   
   }
 }

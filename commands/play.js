@@ -1,5 +1,5 @@
 const {GuildMember} = require('discord.js');
-const {QueryType} = require('discord-player');
+const {QueryType,RepeatMode} = require('discord-music-player');
 
 module.exports = {
   name: 'play',
