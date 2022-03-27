@@ -1,5 +1,5 @@
 const {GuildMember} = require('discord.js');
-const {QueryType,RepeatMode} = require('discord-music-player');
+const {QueryType,RepeatMode} = require('discord-player');
 
 module.exports = {
   name: 'play',
@@ -10,7 +10,12 @@ module.exports = {
       type: 3, // 'STRING' Type
       description: 'The song you want to play',
       required: true,
-    },
+    },{
+      name: 'result-number',
+      type: 4, // 'INTIGER' Type
+      description: 'The search result number you want to play',
+      required: false,
+    }
   ],
   async execute(interaction, player) {
     try {
@@ -37,10 +42,9 @@ module.exports = {
       const searchResult = await player
         .search(query, {
           requestedBy: interaction.user,
-          searchEngine: QueryType.AUTO,
         })
         .catch(() => {});
-      if (!searchResult || !searchResult.tracks.length)
+      if (!searchResult || !searchResult.tracks)
         return void interaction.followUp({content: 'No results were found!'});
 
       const queue = await player.createQueue(interaction.guild, {
@@ -59,7 +63,9 @@ module.exports = {
       await interaction.followUp({
         content: `⏱ | Loading your ${searchResult.playlist ? 'playlist' : 'track'}...`,
       });
-      await searchResult.playlist ? queue.addTracks(searchResult.tracks) : queue.addTrack(searchResult.tracks[0]);
+      searchindex = interaction.options.get('result-number')? interaction.options.get('result-number').value-1: 0
+      if(searchindex > 5 || searchindex < 0)searchindex = 0
+      await searchResult.playlist ? queue.addTracks(searchResult.tracks) : queue.addTrack(searchResult.tracks[searchindex]);
       if (!queue.playing) await queue.play();
     } catch (error) {
       console.log(error);
